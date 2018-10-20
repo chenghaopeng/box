@@ -94,6 +94,33 @@
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <?php
+        function isMobile() { 
+            if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
+                return true;
+            } 
+            if (isset($_SERVER['HTTP_VIA'])) { 
+                return stristr($_SERVER['HTTP_VIA'], "wap") ? true : false;
+            } 
+            if (isset($_SERVER['HTTP_USER_AGENT'])) {
+                $clientkeywords = array('nokia','sony','ericsson','mot','samsung','htc','sgh','lg','sharp','sie-','philips','panasonic','alcatel','lenovo','iphone','ipod','blackberry','meizu','android','netfront','symbian','ucweb','windowsce','palm','operamini','operamobi','openwave','nexusone','cldc','midp','wap','mobile','MicroMessenger'); 
+                if (preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($_SERVER['HTTP_USER_AGENT']))) {
+                    return true;
+                } 
+            } 
+            if (isset ($_SERVER['HTTP_ACCEPT'])) { 
+                if ((strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') !== false) && (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === false || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))) {
+                  return true;
+                } 
+            } 
+              return false;
+            }
+        if (isMobile()):
+            echo '<meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.8, maximum-scale=0.8" />';
+        else:
+            echo '<meta name="viewport" content="width=device-width,initial-scale=1">';
+        endif;
+    ?>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm bg-light fixed-top navbar-primary" style="font-size: 20px;">
